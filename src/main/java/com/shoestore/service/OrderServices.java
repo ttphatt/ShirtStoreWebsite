@@ -99,10 +99,66 @@ public class OrderServices {
 			PaymentServices paymentService = new PaymentServices(request, response);
 			request.getSession().setAttribute("order4Paypal", order);
 			paymentService.authorizePayment(order);
+			sendEmailToCustomer();
 		}
 		else {
 			placeOrderCOD(order);
+			sendEmailToCustomer();
 		}
+	}
+	
+	private void sendEmailToCustomer(){
+		//lấy email hiện tại ra
+        HttpSession session = request.getSession();
+        Customer loggedCustomer = (Customer) session.getAttribute("loggedCustomer");
+        String email = loggedCustomer.getEmail();
+        String name = loggedCustomer.getFirstname();
+        String title = "Order Confirmation from PHK SHOE STORE";
+        String body = formEmail(name);
+        //gửi mail
+        MailServices.SendMail(email,title,body);
+	}
+	
+	public String formEmail(String name) {
+		String form = "PHK SHOE STORE\r\n"
+				+ "\r\n"
+				+ "Order Confirmation and Thank You\r\n"
+				+ "\r\n"
+				+ "Dear " + name + ",\r\n"
+				+ "\r\n"
+				+ "Thank you for placing an order with PHK SHOE STORE. We are excited to process your order and ensure you receive your items as soon as possible.\r\n"
+				+ "\r\n"
+				+ "Order Details:\r\n"
+				+ "\r\n"
+				+ "Order Number: [Order Number]\r\n"
+				+ "Order Date: [Order Date]\r\n"
+				+ "Estimated Delivery Date: [Estimated Delivery Date]\r\n"
+				+ "Items Ordered:\r\n"
+				+ "[Item 1]\r\n"
+				+ "[Item 2]\r\n"
+				+ "[Item 3]\r\n"
+				+ "We appreciate your trust in us and strive to deliver the highest quality products and services. Your satisfaction is our top priority.\r\n"
+				+ "\r\n"
+				+ "Next Steps:\r\n"
+				+ "\r\n"
+				+ "You will receive a notification once your order is shipped, including tracking information.\r\n"
+				+ "If you have any special instructions or need to make changes to your order, please contact us promptly.\r\n"
+				+ "Customer Support:\r\n"
+				+ "If you have any questions or require further assistance, our customer service team is here to help. You can reach us at [Customer Service Email] or call us at [Customer Service Phone Number].\r\n"
+				+ "\r\n"
+				+ "Thank you once again for your purchase. We look forward to serving you and hope you enjoy your new items!\r\n"
+				+ "\r\n"
+				+ "Best regards,\r\n"
+				+ "\r\n"
+				+ "[Your Name]\r\n"
+				+ "[Your Title]\r\n"
+				+ "[Your Company Name]\r\n"
+				+ "[Company Address]\r\n"
+				+ "[Company Email]\r\n"
+				+ "[Company Phone Number]\r\n"
+				+ "\r\n"
+				+ "";
+		return form;
 	}
 	
 	public Integer placeOrderPaypal(Payment payment) {

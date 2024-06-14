@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -130,14 +131,14 @@ public class PaymentServices {
 	
 	private Amount getAmountDetails(ShoeOrder order) {
 		Details details = new Details();
-		details.setShipping(String.format("%.2f", order.getShippingFee()));
-		details.setTax(String.format("%.2f", order.getTax()));
-		details.setSubtotal(String.format("%.2f", order.getSubtotal()));
+		details.setShipping(String.format(Locale.US, "%.2f", order.getShippingFee()));
+		details.setTax(String.format(Locale.US, "%.2f", order.getTax()));
+		details.setSubtotal(String.format(Locale.US, "%.2f", order.getSubtotal()));
 		
 		Amount amount = new Amount();
 		amount.setCurrency("USD");
 		amount.setDetails(details);
-		amount.setTotal(String.format("%.2f", order.getOrderSum()));
+		amount.setTotal(String.format(Locale.US, "%.2f", order.getOrderSum()));
 		
 		return amount;
 	}
@@ -182,7 +183,7 @@ public class PaymentServices {
 			paypalItem.setCurrency("USD")
 					  .setName(shoe.getShoeName())
 					  .setQuantity(String.valueOf(quantity))
-					  .setPrice(String.format("%.2f", shoe.getShoePrice()));
+					  .setPrice(String.format(Locale.US, "%.2f", shoe.getShoePrice()));
 			
 			paypalItems.add(paypalItem);
 		}
