@@ -1,12 +1,9 @@
 package com.shoestore.service;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +14,6 @@ import com.shoestore.dao.CustomerDAO;
 import com.shoestore.dao.OrderDAO;
 import com.shoestore.dao.RateDAO;
 import com.shoestore.entity.Customer;
-import com.shoestore.entity.ShoeOrder;
 
 public class CustomerServices {
 	private CustomerDAO customerDAO;
@@ -103,6 +99,8 @@ public class CustomerServices {
 		customer.setState(state);
 		customer.setZip(zip);
 		customer.setCountry(country);
+		
+		sendEmailToCustomer(email, firstname + " " + lastname);
 	}
 	
 	public void editCustomer() throws ServletException, IOException {
@@ -187,7 +185,6 @@ public class CustomerServices {
 			Customer newCustomer = new Customer();
 			updateCustomerFieldsFromForm(newCustomer);
 			Customer createdCustomer = customerDAO.create(newCustomer);
-		
 			message = "You have signed up successfully.\n" + "<a href='login'>Click here</a> to login";
 		}
 	
@@ -234,55 +231,45 @@ public class CustomerServices {
 		}
 	}
 	
-	private void sendEmailToCustomer(){
+	private void sendEmailToCustomer(String email, String name){
 		//lấy email hiện tại ra
-        HttpSession session = request.getSession();
-        Customer loggedCustomer = (Customer) session.getAttribute("loggedCustomer");
-        String email = loggedCustomer.getEmail();
-        String name = loggedCustomer.getFirstname();
-        String title = "Order Confirmation from PHK SHOE STORE";
-        String body = formEmail(name);
+        String title = "Register Confirmation from PHK SHOE STORE";
+        String body = formEmail(name, email);
         //gửi mail
         MailServices.SendMail(email,title,body);
 	}
 	
-	public String formEmail(String name) {
+	public String formEmail(String name, String email) {
 		String form = "PHK SHOE STORE\r\n"
 				+ "\r\n"
-				+ "Order Confirmation and Thank You\r\n"
+				+ "Registration Confirmation and Thank You\r\n"
 				+ "\r\n"
 				+ "Dear " + name + ",\r\n"
 				+ "\r\n"
-				+ "Thank you for placing an order with PHK SHOE STORE. We are excited to process your order and ensure you receive your items as soon as possible.\r\n"
+				+ "Thank you for registering with PHK SHOE STORE. We are thrilled to have you join our community.\r\n"
 				+ "\r\n"
-				+ "Order Details:\r\n"
+				+ "Registration Details:\r\n"
 				+ "\r\n"
-				+ "Order Number: [Order Number]\r\n"
-				+ "Order Date: [Order Date]\r\n"
-				+ "Estimated Delivery Date: [Estimated Delivery Date]\r\n"
-				+ "Items Ordered:\r\n"
-				+ "[Item 1]\r\n"
-				+ "[Item 2]\r\n"
-				+ "[Item 3]\r\n"
-				+ "We appreciate your trust in us and strive to deliver the highest quality products and services. Your satisfaction is our top priority.\r\n"
+				+ "Name: " + name + "\r\n"
+				+ "Email: " + email + "\r\n"
+				+ "Registration Date: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")) + "\r\n"
+				+ "We are committed to providing you with the best experience possible. As a registered member, you will enjoy exclusive benefits such as:\r\n"
 				+ "\r\n"
+				+ "Early access to new products and promotions\r\n"
+				+ "Special discounts and offers\r\n"
+				+ "Personalized recommendations and updates\r\n"
 				+ "Next Steps:\r\n"
 				+ "\r\n"
-				+ "You will receive a notification once your order is shipped, including tracking information.\r\n"
-				+ "If you have any special instructions or need to make changes to your order, please contact us promptly.\r\n"
+				+ "Stay tuned for our upcoming newsletters and updates.\r\n"
+				+ "Explore our website to discover our latest products and services.\r\n"
 				+ "Customer Support:\r\n"
-				+ "If you have any questions or require further assistance, our customer service team is here to help. You can reach us at [Customer Service Email] or call us at [Customer Service Phone Number].\r\n"
+				+ "If you have any questions or need assistance, our customer service team is here to help. You can reach us at phkshoestore@gmail.com or call us at 0123456789.\r\n"
 				+ "\r\n"
-				+ "Thank you once again for your purchase. We look forward to serving you and hope you enjoy your new items!\r\n"
+				+ "Thank you once again for registering with us. We look forward to serving you and providing you with the best products and services.\r\n"
 				+ "\r\n"
 				+ "Best regards,\r\n"
 				+ "\r\n"
-				+ "[Your Name]\r\n"
-				+ "[Your Title]\r\n"
-				+ "[Your Company Name]\r\n"
-				+ "[Company Address]\r\n"
-				+ "[Company Email]\r\n"
-				+ "[Company Phone Number]\r\n"
+				+ "PHK SHOE STORE\r\n"
 				+ "\r\n"
 				+ "";
 		return form;
