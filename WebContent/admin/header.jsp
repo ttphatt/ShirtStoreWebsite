@@ -18,16 +18,13 @@
 
 <div align="right">
 	<table>
-		<tr>
-			<td>
-				<h3 align="right">Hi there, ${sessionScope.userFullName}&nbsp;&nbsp;</h3>
-			</td>
-			
-			<td>
-				<a href="logout" class="btn btn-outline-dark" style="text-align: right;">Logout</a>
-			</td>
-		</tr>	
-	
+<tr>
+    <td colspan="3" class="d-flex justify-content-end align-items-center pe-3">
+        <h3 class="mb-0 me-3">Hi there, ${sessionScope.userFullName}</h3>
+        <a href="logout" class="btn btn-outline-dark">Logout</a>
+    </td>
+</tr>
+
 	</table>
 </div>	
 
@@ -35,12 +32,13 @@
 	<br><br>
 		
 	<div class="row justify-content-center text-center">
-		<div class="col">
-			<a href = "list_users" class="btn btn-light">
-				<img src="../images/profile.png" id = "logoSize" style="max-width: 70px; max-height: 70px"><br>Users
-			</a>
-		</div>
-		
+		<c:if test="${userRole != 'staff'}">
+			<div class="col" >
+				<a href = "list_users" class="btn btn-light">
+					<img src="../images/profile.png" id = "logoSize" style="max-width: 70px; max-height: 70px"><br>Users
+				</a>
+			</div>
+		</c:if>
 		<div class="col">
 			<a href = "list_type" class="btn btn-light">
 				<img src="../images/app.png" id = "logoSize" style="max-width: 70px; max-height: 70px"><br>Type
@@ -48,8 +46,8 @@
 		</div>
 		
 		<div class="col">
-			<a href = "list_shoes" class="btn btn-light">
-				<img src="../images/sneakers.png" id = "logoSize" style="max-width: 70px; max-height: 70px"><br>Shoes
+			<a href = "list_shirts" class="btn btn-light">
+				<img src="../images/shirt.png" id = "logoSize" style="max-width: 70px; max-height: 70px"><br>Shirts
 			</a>
 		</div>
 		
@@ -70,6 +68,19 @@
 				<img src="../images/shopping-cart.png" id = "logoSize" style="max-width: 70px; max-height: 70px"><br>Order
 			</a>
 		</div>
-	
+
+		<div class="col">
+			<a href = "stock_check" class="btn btn-light">
+				<img src="../images/warehouse.png" id = "logoSize" style="max-width: 70px; max-height: 70px"><br>Warehouse
+			</a>
+		</div>
+
+		<c:if test="${userRole != 'staff'}">
+			<div class="col">
+				<a href = "list_promotion" class="btn btn-light">
+					<img src="../images/promotion.png" id = "logoSize" style="max-width: 70px; max-height: 70px"><br>Promotion
+				</a>
+			</div>
+		</c:if>
 	</div>		
 </div>

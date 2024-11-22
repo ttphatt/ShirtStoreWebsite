@@ -5,13 +5,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
 	<title>Managing Customers</title>
-	<script type="text/javascript" src="../js/jquery-3.7.1.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	
+	<jsp:include page="pagehead.jsp"></jsp:include>
+	<jsp:include page="pageLoad.jsp"/>
+	<link href="../css/temp.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<jsp:directive.include file="header.jsp"/>
@@ -24,14 +21,23 @@
 	</div>
 	
 	<c:if test="${message != null}">
-		<div align="center" style="color: red;">
-			<h4>${message}</h4>
-		</div>
+	    <c:choose>
+	        <c:when test="${message.contains('successfully')}">
+	            <div align="center" class="alert alert-info" role="alert">
+	                <h4>${message}</h4>
+	            </div>
+	        </c:when>
+	        <c:otherwise>
+	            <div align="center" class="alert alert-danger" role="alert">
+	                <h4>${message}</h4>
+	            </div>
+	        </c:otherwise>
+	    </c:choose>
 	</c:if>
 		
 	<div align="center">
-		<table border="1" cellpadding="5" class="table" style="width: 1400px">
-			<thead class="thead-dark">
+		<table  class="table table-bordered" style="width: 1400px">
+		<thead class="table-dark">
 			<tr>
 				<th class="align-middle justify-content-center text-center">Index</th>
 				<th class="align-middle justify-content-center text-center">ID</th>
@@ -43,9 +49,8 @@
 				<th class="align-middle justify-content-center text-center">Sign Up Date</th>
 				<th class="align-middle justify-content-center text-center">Actions</th>
 			</tr>
-			</thead>
-			
-			<tbody>
+		</thead>
+			<tbody id="tableBody">
 			<c:forEach var="customer" items="${listCustomer}" varStatus="status">
 			<tr>
 				<td class="align-middle justify-content-center text-center">${status.index + 1}</td>
@@ -66,11 +71,72 @@
 			</tbody>
 		</table>
 	</div>
-	
-	
+
+	<div align="center">
+		<div class="pagination-wrapper">
+			<a href="#" class="paginationButton is-medium-button w-button" id="prevPage" >Previous</a>
+			<a href="#" class="paginationButton is-medium-button w-button" id="nextPage" >Next</a>
+		</div>
+	</div>
+
+	<script>
+		let curPage = 1
+		let recordsPerPage = 5;
+		let products = onload();
+		document.getElementById("prevPage").addEventListener("click", prevPage);
+		document.getElementById("nextPage").addEventListener("click", nextPage);
+		changePage(1);
+
+		function onload() {
+			return document.getElementById("tableBody").getElementsByTagName("tr");
+		}
+
+		function prevPage() {
+			if (curPage > 1) {
+				curPage--;
+				changePage(curPage);
+			}
+		}
+
+		function nextPage() {
+			if (curPage < numPages()) {
+				curPage++;
+				changePage(curPage);
+			}
+		}
+
+		function changePage(page) {
+			for (let i = 0; i < products.length; i++) {
+				products[i].style.display = "none";
+			}
+
+			for (let i = (page - 1) * recordsPerPage; i < products.length && i < (page * recordsPerPage); i++) {
+				products[i].style.display = "table-row";
+			}
+		}
+
+		function numPages() {
+			return Math.ceil(products.length / recordsPerPage);
+		}
+	</script>
+
 	<br><br><br><br>
 	<jsp:directive.include file="footer.jsp"/>
 </body>
+<script>
+	window.addEventListener("load", () => {
+		const loader = document.querySelector(".loader_wrapper");
+
+		setTimeout(() => {
+			loader.classList.add("loader-hidden");
+
+			loader.addEventListener("transitionend", () => {
+				document.body.removeChild(loader);
+			});
+		}, 500);
+	});
+</script>
+
 <script>
 	$(document).ready(function(){
 		$(".deleteLink").each(function(){

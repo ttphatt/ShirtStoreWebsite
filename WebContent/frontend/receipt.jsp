@@ -16,7 +16,7 @@
 		<table border="1" cellpadding="10" class="table table-striped" style="width: 300px">
 			<tr>
 				<td><b>Emai:</b></td>
-				<td>phkshoestore@gmail.com</td>
+				<td>phkshirtstore@gmail.com</td>
 			</tr>
 			
 			<tr>
@@ -114,6 +114,23 @@
 							<p><b>Subtotal: </b><fmt:formatNumber value="${transaction.amount.details.subtotal}" type="currency" /></p>
 							<p><b>Tax: </b><fmt:formatNumber value="${transaction.amount.details.tax}" type="currency" /></p>
 							<p><b>Shipping fee: </b><fmt:formatNumber value="${transaction.amount.details.shipping}" type="currency" /></p>
+							<%--Discount Display Section--%>
+							<c:if test="${shippingDiscount ne null}">
+								<p><b>Shipping discount: </b><fmt:formatNumber value="-${shippingDiscount}" type="currency" /></p>
+							</c:if>
+
+							<c:if test="${shippingDiscount eq null}">
+								<p><b>Shipping discount: </b><fmt:formatNumber value="0" type="currency" /></p>
+							</c:if>
+
+							<c:if test="${orderDiscount ne null}">
+								<p><b>Order discount: </b><fmt:formatNumber value="-${orderDiscount}" type="currency" /></p>
+							</c:if>
+
+							<c:if test="${orderDiscount eq null}">
+								<p><b>Order discount: </b><fmt:formatNumber value="0" type="currency" /></p>
+							</c:if>
+							<%------------------------------%>
 							<p><b>Total price: </b><fmt:formatNumber value="${transaction.amount.total}" type="currency" /></p>
 						</td>
 					</tr>

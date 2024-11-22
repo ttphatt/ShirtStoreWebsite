@@ -4,20 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
-	<title>Edit Rate</title>
-	<script type="text/javascript" src="../js/jquery-3.7.1.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	
+	<jsp:include page="pagehead.jsp"></jsp:include>	
 </head>
 <body>
 	<jsp:directive.include file="header.jsp"/>
 	<br><br><br><br>
 	
 	<div align="center">
-		<h1>Edit Rate</h1>
+		<h1>Rate's Detail</h1>
 	</div>
 		
 	<br>
@@ -27,13 +21,22 @@
 		<input type="hidden" name="rateId" value="${rate.rateId}">
 		<table cellpadding="10px">
 			<tr>
-				<td align="right">Shoes' name:</td>
-				<td align="left"><b>${rate.shoe.shoeName}</b></td>
+				<td align="right">Shirts' name:</td>
+				<td align="left"><b>${rate.shirt.shirtName}</b></td>
 			</tr>
 			
 			<tr>
 				<td align="right">Rating Stars:</td>
-				<td align="left"><b>${rate.ratingStars}</b></td>
+				<td align="left"><c:forEach begin="1" end="5" var="i">
+                <c:choose>
+                    <c:when test="${i <= rate.ratingStars}">
+                        <i class="bi bi-star-fill"></i>
+                    </c:when>
+                    <c:otherwise>
+                        <i class="bi bi-star"></i>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach></td>
 			</tr>
 			
 			<tr>
@@ -44,14 +47,14 @@
 			<tr>
 				<td align="right">Rate's headline:</td>
 				<td align="left">
-					<input type="text" size="60" name="headline" value="${rate.headline}" required="required" minlength="5" maxlength="50" class="form-control">
+					<input type="text" size="60" name="headline" value="${rate.headline}" required="required" minlength="5" maxlength="50" class="form-control" readonly>
 				</td>
 			</tr>
 			
 			<tr>
 				<td align="right">Rate detail:</td>
 				<td align="left">
-					<textarea rows="5" cols="70" name="ratingDetail" required="required" minlength="1" maxlength="50">${rate.ratingDetail}</textarea>
+					<textarea rows="5" cols="70" name="ratingDetail" required="required" minlength="1" maxlength="50" readonly>${rate.ratingDetail}</textarea>
 				
 				</td>
 			</tr>
@@ -63,7 +66,7 @@
 				
 			<tr>
 				<td colspan="2" align="center">
-					<button type = "submit" class="btn btn-outline-success">Save</button>
+<%--					<button type = "submit" class="btn btn-outline-success">Save</button>--%>
 					<button type="button" class="btn btn-outline-info" onclick="history.go(-1);">Cancel</button>
 				</td>
 			</tr>

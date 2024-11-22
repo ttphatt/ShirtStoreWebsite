@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.shoestore</groupId>
-  <artifactId>ShoeStoreWebsite</artifactId>
+  <groupId>com.shirtstore</groupId>
+  <artifactId>ShirtStoreWebsite</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <build>
@@ -94,5 +94,55 @@
 			<version>1.4.7</version>
 		</dependency>
 		
-	</dependencies>
+		<!--Google login-->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5.13</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5.13</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>fluent-hc</artifactId>
+		    <version>4.5.13</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20210307</version>
+		</dependency>
+		
+		<!-- Captcha Dependency -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20240303</version>
+		</dependency>
+	  <dependency>
+		  <groupId>junit</groupId>
+		  <artifactId>junit</artifactId>
+		  <version>RELEASE</version>
+		  <scope>test</scope>
+	  </dependency>
+
+	  <!-- Reading CSV files dependency -->
+	  <dependency>
+		  <groupId>com.opencsv</groupId>
+		  <artifactId>opencsv</artifactId>
+		  <version>5.5.2</version>
+	  </dependency>
+
+	  <!-- generate random password-->
+	  <dependency>
+		  <groupId>org.apache.commons</groupId>
+		  <artifactId>commons-lang3</artifactId>
+		  <version>3.8.1</version>
+	  </dependency>
+
+
+  </dependencies>
 </project>

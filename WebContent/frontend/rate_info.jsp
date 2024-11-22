@@ -4,70 +4,128 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
-	<title>Rate our shoes</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
-	
-	<script type="text/javascript" src="js/jquery-3.7.1.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
+    <title>Rate our shirts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	
+    <script type="text/javascript" src="js/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            padding-top: 70px;
+        }
+        .img-fluid {
+            max-height: 240px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
-	<jsp:directive.include file="header.jsp"/>
-	<br><br><br><br>
+    <jsp:directive.include file="header.jsp"/>
+    <div class="container mt-5">
+        <div class="row justify-content-center text-center">
+            <form id="rateForm" action="update_rate" method="post" class="col-lg-8">
+                <input type="hidden" name="rateId" value="${rate.rateId}">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-start">You already wrote the rate for this shirt</h2>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="${shirt.shirtImage}" class="img-fluid mb-3" alt="${shirt.shirtName}">
+                                <h2><b>${shirt.shirtName}</b></h2>
+                            </div>
+                            <div class="col-md-8">
+                                <div id="rateYo" class="mb-3"></div>
+                                <div class="form-group">
+                                    <input id="headline" type="text" name="headline" class="form-control" value="${rate.headline}" placeholder="Headline" required>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <textarea id="ratingDetail" name="ratingDetail" class="form-control" rows="5"  placeholder="Share us your experience" required>${rate.ratingDetail}</textarea>
+                                </div>
+                            </div>
 
-	<div class="container">
-		<div class="row justify-content-center text-center">
-		<form id="rateForm">
-			<table cellpadding="10px" width="100%">
-				<tr>
-					<td><h2 align="left">You already wrote the rate for this pair of shoes</h2></td>
-					<td>&nbsp;</td>
-				</tr>
-				
-				<tr>
-					<td colspan="3"><hr></td>	
-				</tr>
-				
-				<tr>
-					<td>
-						<img src="data:image/jpg;base64,${shoe.base64Image}" width="250" height="240"/>
-						<h2><b>${shoe.shoeName}</b></h2>
-					</td>
-				
-					<td>
-						<div id="rateYo"></div>
-						<br>
-						<br>
-						<input type="text" name="headline" size="67" readonly="readonly" value="${rate.headline}">
-						<br>
-						<br>
-						<br>
-						<textarea name="ratingDetail" rows="10" cols="70" readonly="readonly">${rate.ratingDetail}</textarea>
-					</td>		
-				</tr>
-			</table>
-		</form>
-		</div>
-	</div>
-	
-	<br><br><br><br>
-	<jsp:directive.include file="footer.jsp"/>
+                            <div class="d-flex justify-content-end mt-4">
+                                <a href="#" class="deleteLink btn btn-outline-primary" id="${rate.rateId}">Delete</a>&nbsp;&nbsp;
+                                <button id="submit" type="submit" class="btn btn-outline-success me-2">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <jsp:directive.include file="footer.jsp"/>
 </body>
 <script type="text/javascript">
-	
-	$(document).ready(function(){
-		$("#rateYo").rateYo({
-		    starWidth: "40px",
-		    fullStar: true,
-		    ratedFill: "#000000",
-		    rating: ${rate.ratingStars},
-		    readOnly: true,
-		});
-	});
+    $(document).ready(function(){
+        var headline = ""
+        var ratingDetail = ""
+
+        $("#rateYo").rateYo({
+            starWidth: "40px",
+            fullStar: true,
+            ratedFill: "#000000",
+            rating: ${rate.ratingStars},
+            readOnly: true,
+        });
+
+        $("#submit").click(function(event) {
+            headline = document.getElementById("headline").value;
+            ratingDetail = document.getElementById("ratingDetail").value
+
+            if(headline.length === 0){
+                getMessageContent("NOT_NULL_HEADLINE", event);
+            }
+
+            else if(ratingDetail.length === 0){
+                getMessageContent("NOT_NULL_RATING_DETAIL", event);
+            }
+        });
+
+        function getMessageContent(messageId, event){
+            fetch('csvdata?id=' + messageId)
+                .then(response => response.json())
+                .then(data =>{
+                    if(data.message){
+                        Swal.fire(data.message);
+                        event.preventDefault();
+                    }
+                    else{
+                        Swal.fire("Message not found");
+                        event.preventDefault();
+                    }
+                })
+                .catch(error => console.error("Error: ", error));
+        }
+
+        $(".deleteLink").each(function(){
+            $(this).on("click", function(){
+                rateId = $(this).attr("id");
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you want to delete your rate?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, certainly!',
+                    cancelButtonText: 'No, I change my mind'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "delete_rate?id=" + rateId;
+                    }
+                });
+
+            })
+        });
+    });
 </script>
 </html>

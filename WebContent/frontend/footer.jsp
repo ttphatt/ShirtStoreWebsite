@@ -15,7 +15,7 @@
 	<div class="col mb-3 mt-3">
 		<a href="contact" class="text-white"><b>Contact us</b></a>
 		<br><br>
-		<a href="" class="text-white"><b>Email:</b> phkshoestore@gmail.com</a>
+		<a href="" class="text-white"><b>Email:</b> phkshirtstore@gmail.com</a>
 		<br><br>
 		<a href="" class="text-white"><b>Hotline:</b> 0123 465 789</a>
 	</div>
@@ -41,6 +41,6 @@
 
 <div class="row text-center bg-dark">
 	<div class="col mb-3 mt-3">
-		<h6 class="text-white">©The copyright belongs to <span style="color: red">PHK Shoe Store</span> | Provided by PHK</h6>
+		<h6 class="text-white">ï¿½The copyright belongs to <span style="color: red">PHK Shoe Store</span> | Provided by PHK</h6>
 	</div>
 </div>
