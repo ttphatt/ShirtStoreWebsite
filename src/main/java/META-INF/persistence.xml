@@ -5,12 +5,12 @@
           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 	version="2.1">
 
-	<persistence-unit name="ShoeStoreWebsite">
+	<persistence-unit name="ShirtStoreWebsite">
 		<properties>
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://127.0.0.1:3306/shoestoredb?useSSL=false" />
+				value="jdbc:mysql://localhost:3306/shirtstoredb?useSSL=false" />
 			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="password" />
+			<property name="javax.persistence.jdbc.password" value="123456" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 <!-- 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" /> -->

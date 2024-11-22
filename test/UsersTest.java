@@ -2,9 +2,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.hibernate.HibernateException;
-
-import com.shoestore.entity.Users;
+import com.shirtstore.entity.Users;
 
 public class UsersTest {
 
